@@ -218,15 +218,6 @@ namespace v2rayN.Mode
             return vmess[index].id.TrimEx();
         }
 
-        public int alterId()
-        {
-            if (index < 0)
-            {
-                return 0;
-            }
-            return vmess[index].alterId;
-        }
-
         public string security()
         {
             if (index < 0)
@@ -375,6 +366,15 @@ namespace v2rayN.Mode
                 return null;
             }
         }
+
+        public int FindIndexId(string indexId)
+        {
+            if (string.IsNullOrEmpty(indexId))
+            {
+                return -1;
+            }
+            return vmess.FindIndex(it => it.indexId == indexId);
+        }
         #endregion
 
     }
@@ -384,11 +384,11 @@ namespace v2rayN.Mode
     {
         public VmessItem()
         {
+            indexId = string.Empty;
             configVersion = 1;
             address = string.Empty;
             port = 0;
             id = string.Empty;
-            alterId = 0;
             security = string.Empty;
             network = string.Empty;
             remarks = string.Empty;
@@ -470,6 +470,10 @@ namespace v2rayN.Mode
             itemId = Utils.Base64Encode(itemId);
             return itemId;
         }
+        public string indexId
+        {
+            get; set;
+        }
 
         /// <summary>
         /// 版本(现在=2)
@@ -499,14 +503,7 @@ namespace v2rayN.Mode
         public string id
         {
             get; set;
-        }
-        /// <summary>
-        /// 远程服务器额外ID
-        /// </summary>
-        public int alterId
-        {
-            get; set;
-        }
+        }        
         /// <summary>
         /// 本地安全策略
         /// </summary>
